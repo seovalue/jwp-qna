@@ -1,24 +1,30 @@
 package qna.domain.user;
 
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import qna.UnAuthorizedException;
 import qna.domain.BaseEntity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
+import javax.persistence.*;
 import java.util.Objects;
 
+@EntityListeners(AuditingEntityListener.class)
+@Table(uniqueConstraints = {
+        @UniqueConstraint(columnNames = "userId")
+})
 @Entity
 public class User extends BaseEntity {
     public static final GuestUser GUEST_USER = new GuestUser();
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 20)
     private String userId;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 20)
     private String password;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 20)
     private String name;
+
+    @Column(length = 50)
     private String email;
 
     protected User() {

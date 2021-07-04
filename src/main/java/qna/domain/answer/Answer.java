@@ -58,6 +58,11 @@ public class Answer extends BaseEntity {
         this.question = question;
     }
 
+    public Answer updateContents(String contents) {
+        this.contents = contents;
+        return this;
+    }
+
     public Long getId() {
         return super.getId();
     }
