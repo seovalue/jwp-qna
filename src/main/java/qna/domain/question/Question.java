@@ -1,10 +1,13 @@
 package qna.domain.question;
 
+import qna.CannotDeleteException;
 import qna.domain.BaseEntity;
 import qna.domain.answer.Answer;
 import qna.domain.user.User;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class Question extends BaseEntity {
@@ -21,6 +24,9 @@ public class Question extends BaseEntity {
 
     @Column(nullable = false)
     private boolean deleted = false;
+
+    @OneToMany(mappedBy = "question")
+    private final List<Answer> answers = new ArrayList<>();
 
     protected Question() {}
 
@@ -43,6 +49,31 @@ public class Question extends BaseEntity {
         this.title = title;
         this.contents = contents;
         return this;
+    }
+
+    public void delete(User user){
+        validateAuthority(user);
+        isAnotherAnswerExist(user);
+        this.deleted = true;
+        deleteAllChainedAnswers();
+    }
+
+    private void deleteAllChainedAnswers() {
+        answers.forEach(Answer::delete);
+    }
+
+    private void isAnotherAnswerExist(User user) {
+        answers.forEach(answer -> {
+            if(!answer.isOwner(user)) {
+                throw new CannotDeleteException("다른 사람의 답변이 존재하므로 삭제할 수 없습니다.");
+            }
+        });
+    }
+
+    private void validateAuthority(User user) {
+        if (!isOwner(user)) {
+            throw new CannotDeleteException("질문을 삭제할 권한이 없습니다.");
+        }
     }
 
     public boolean isOwner(User writer) {
