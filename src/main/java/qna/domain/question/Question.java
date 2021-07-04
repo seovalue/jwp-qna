@@ -3,9 +3,12 @@ package qna.domain.question;
 import qna.CannotDeleteException;
 import qna.domain.BaseEntity;
 import qna.domain.answer.Answer;
+import qna.domain.history.ContentType;
+import qna.domain.history.DeleteHistory;
 import qna.domain.user.User;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,7 +29,7 @@ public class Question extends BaseEntity {
     private boolean deleted = false;
 
     @OneToMany(mappedBy = "question")
-    private final List<Answer> answers = new ArrayList<>();
+    private List<Answer> answers = new ArrayList<>();
 
     protected Question() {}
 
@@ -81,6 +84,7 @@ public class Question extends BaseEntity {
     }
 
     public void addAnswer(Answer answer) {
+        answers.add(answer);
         answer.toQuestion(this);
     }
 
@@ -94,6 +98,10 @@ public class Question extends BaseEntity {
 
     public String getContents() {
         return contents;
+    }
+
+    public List<Answer> getAnswers() {
+        return answers;
     }
 
     public User getWriter() {

@@ -1,10 +1,14 @@
 package qna.domain.history;
 
 import org.springframework.data.annotation.CreatedDate;
+import qna.domain.answer.Answer;
+import qna.domain.question.Question;
 import qna.domain.user.User;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -17,7 +21,6 @@ public class DeleteHistory {
     @Enumerated(EnumType.STRING)
     private ContentType contentType;
 
-
     private Long contentId;
 
     @ManyToOne
@@ -27,7 +30,7 @@ public class DeleteHistory {
     @CreatedDate
     private LocalDateTime createDate = LocalDateTime.now();
 
-    protected DeleteHistory() {
+    public DeleteHistory() {
     }
 
     public DeleteHistory(ContentType contentType, Long contentId, User deletedByUser, LocalDateTime createDate) {
@@ -35,6 +38,19 @@ public class DeleteHistory {
         this.contentId = contentId;
         this.deletedByUser = deletedByUser;
         this.createDate = createDate;
+    }
+
+    public List<DeleteHistory> getDeleteHistory(Question question) {
+        List<DeleteHistory> deleteHistories = new ArrayList<>();
+        deleteHistories.add(new DeleteHistory(ContentType.QUESTION, question.getId(), question.getWriter(), LocalDateTime.now()));
+        addAnswersToDeleteHistory(question.getAnswers(), deleteHistories);
+        return deleteHistories;
+    }
+
+    private void addAnswersToDeleteHistory(List<Answer> answers, List<DeleteHistory> deleteHistories) {
+        for (Answer answer : answers) {
+            deleteHistories.add(new DeleteHistory(ContentType.ANSWER, answer.getId(), answer.getWriter(), LocalDateTime.now()));
+        }
     }
 
     @Override
