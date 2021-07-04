@@ -9,10 +9,9 @@ import qna.domain.question.QuestionTest;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static qna.domain.user.UserTest.JAVAJIGI;
-import static qna.domain.user.UserTest.SANJIGI;
+import static qna.domain.user.UserFixture.JAVAJIGI;
+import static qna.domain.user.UserFixture.SANJIGI;
 
 public class AnswerTest {
     public static final Answer A1 = new Answer(JAVAJIGI, QuestionTest.Q1, "Answers Contents1");

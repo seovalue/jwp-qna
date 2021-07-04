@@ -107,13 +107,6 @@ public class User extends BaseEntity {
                 '}';
     }
 
-    private static class GuestUser extends User {
-        @Override
-        public boolean isGuestUser() {
-            return true;
-        }
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -130,5 +123,12 @@ public class User extends BaseEntity {
         int result = userId != null ? userId.hashCode() : 0;
         result = 31 * result + (password != null ? password.hashCode() : 0);
         return result;
+    }
+
+    private static class GuestUser extends User {
+        @Override
+        public boolean isGuestUser() {
+            return true;
+        }
     }
 }

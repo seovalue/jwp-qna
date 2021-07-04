@@ -3,12 +3,9 @@ package qna.domain.question;
 import qna.CannotDeleteException;
 import qna.domain.BaseEntity;
 import qna.domain.answer.Answer;
-import qna.domain.history.ContentType;
-import qna.domain.history.DeleteHistory;
 import qna.domain.user.User;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,7 +28,8 @@ public class Question extends BaseEntity {
     @OneToMany(mappedBy = "question")
     private List<Answer> answers = new ArrayList<>();
 
-    protected Question() {}
+    protected Question() {
+    }
 
     public Question(String title, String contents) {
         this(null, title, contents);
@@ -54,7 +52,7 @@ public class Question extends BaseEntity {
         return this;
     }
 
-    public void delete(User user){
+    public void delete(User user) {
         validateAuthority(user);
         isAnotherAnswerExist(user);
         this.deleted = true;
@@ -62,12 +60,14 @@ public class Question extends BaseEntity {
     }
 
     private void deleteAllChainedAnswers(User user) {
-        answers.forEach(answer -> {answer.delete(user);});
+        answers.forEach(answer -> {
+            answer.delete(user);
+        });
     }
 
     private void isAnotherAnswerExist(User user) {
         answers.forEach(answer -> {
-            if(!answer.isOwner(user)) {
+            if (!answer.isOwner(user)) {
                 throw new CannotDeleteException("다른 사람의 답변이 존재하므로 삭제할 수 없습니다.");
             }
         });
