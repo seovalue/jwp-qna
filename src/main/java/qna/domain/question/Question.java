@@ -58,11 +58,11 @@ public class Question extends BaseEntity {
         validateAuthority(user);
         isAnotherAnswerExist(user);
         this.deleted = true;
-        deleteAllChainedAnswers();
+        deleteAllChainedAnswers(user);
     }
 
-    private void deleteAllChainedAnswers() {
-        answers.forEach(Answer::delete);
+    private void deleteAllChainedAnswers(User user) {
+        answers.forEach(answer -> {answer.delete(user);});
     }
 
     private void isAnotherAnswerExist(User user) {

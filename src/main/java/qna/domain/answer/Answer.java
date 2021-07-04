@@ -1,5 +1,6 @@
 package qna.domain.answer;
 
+import qna.CannotDeleteException;
 import qna.NotFoundException;
 import qna.UnAuthorizedException;
 import qna.domain.BaseEntity;
@@ -54,7 +55,10 @@ public class Answer extends BaseEntity {
         return this.writer.equals(writer);
     }
 
-    public void delete() {
+    public void delete(User user) {
+        if (!isOwner(user)) {
+            throw new CannotDeleteException("작성자가 아닙니다.");
+        }
         this.deleted = true;
     }
 
@@ -75,8 +79,8 @@ public class Answer extends BaseEntity {
         return writer;
     }
 
-    public Long getQuestionId() {
-        return question.getId();
+    public Question getQuestion() {
+        return question;
     }
 
     public String getContents() {
@@ -95,8 +99,8 @@ public class Answer extends BaseEntity {
     public String toString() {
         return "Answer{" +
                 "id=" + super.getId() +
-                ", writerId=" + getWriter() +
-                ", questionId=" + getQuestionId() +
+                ", writer=" + getWriter() +
+                ", question" + getQuestion() +
                 ", contents='" + contents + '\'' +
                 ", deleted=" + deleted +
                 '}';
