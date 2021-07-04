@@ -12,8 +12,13 @@ import java.util.Objects;
 @Entity
 public class Answer extends BaseEntity {
 
-    private Long writerId;
-    private Long questionId;
+    @ManyToOne
+    @JoinColumn(foreignKey = @ForeignKey(name = "fk_answer_writer"))
+    private User writer;
+
+    @ManyToOne
+    @JoinColumn(foreignKey = @ForeignKey(name = "fk_answer_to_question"))
+    private Question question;
 
     @Lob
     private String contents;
@@ -40,29 +45,29 @@ public class Answer extends BaseEntity {
             throw new NotFoundException();
         }
 
-        this.writerId = writer.getId();
-        this.questionId = question.getId();
+        this.writer = writer;
+        this.question = question;
         this.contents = contents;
     }
 
     public boolean isOwner(User writer) {
-        return this.writerId.equals(writer.getId());
+        return this.writer.equals(writer);
     }
 
     public void toQuestion(Question question) {
-        this.questionId = question.getId();
+        this.question = question;
     }
 
     public Long getId() {
         return super.getId();
     }
 
-    public Long getWriterId() {
-        return writerId;
+    public User getWriter() {
+        return writer;
     }
 
     public Long getQuestionId() {
-        return questionId;
+        return question.getId();
     }
 
     public String getContents() {
@@ -81,8 +86,8 @@ public class Answer extends BaseEntity {
     public String toString() {
         return "Answer{" +
                 "id=" + super.getId() +
-                ", writerId=" + writerId +
-                ", questionId=" + questionId +
+                ", writerId=" + getWriter() +
+                ", questionId=" + getQuestionId() +
                 ", contents='" + contents + '\'' +
                 ", deleted=" + deleted +
                 '}';
