@@ -39,6 +39,12 @@ public class Question extends BaseEntity {
         return this;
     }
 
+    public Question update(String title, String Contents) {
+        this.title = title;
+        this.contents = contents;
+        return this;
+    }
+
     public boolean isOwner(User writer) {
         return this.writer.equals(writer);
     }
