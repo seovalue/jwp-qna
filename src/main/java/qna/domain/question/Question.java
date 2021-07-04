@@ -1,4 +1,7 @@
-package qna.domain;
+package qna.domain.question;
+
+import qna.domain.answer.Answer;
+import qna.domain.user.User;
 
 public class Question {
     private Long id;

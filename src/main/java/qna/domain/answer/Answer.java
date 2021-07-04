@@ -1,16 +1,29 @@
-package qna.domain;
+package qna.domain.answer;
 
 import qna.NotFoundException;
 import qna.UnAuthorizedException;
+import qna.domain.BaseEntity;
+import qna.domain.question.Question;
+import qna.domain.user.User;
 
+import javax.persistence.*;
 import java.util.Objects;
 
-public class Answer {
-    private Long id;
+@Entity
+public class Answer extends BaseEntity {
+
     private Long writerId;
     private Long questionId;
+
+    @Lob
     private String contents;
+
+    @Column(nullable = false)
     private boolean deleted = false;
+
+    public Answer() {
+
+    }
 
     public Answer(User writer, Question question, String contents) {
         this(null, writer, question, contents);
