@@ -21,4 +21,23 @@ public abstract class BaseEntity {
     @Column(nullable = false)
     @LastModifiedDate
     private LocalDateTime updatedAt;
+
+    protected BaseEntity() {
+
+    }
+    public BaseEntity(Long id) {
+        this.id = id;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public LocalDateTime getUpdatedAt() {
+        return updatedAt;
+    }
 }

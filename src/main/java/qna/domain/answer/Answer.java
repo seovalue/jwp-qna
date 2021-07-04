@@ -21,7 +21,7 @@ public class Answer extends BaseEntity {
     @Column(nullable = false)
     private boolean deleted = false;
 
-    public Answer() {
+    protected Answer() {
 
     }
 
@@ -30,7 +30,7 @@ public class Answer extends BaseEntity {
     }
 
     public Answer(Long id, User writer, Question question, String contents) {
-        this.id = id;
+        super(id);
 
         if (Objects.isNull(writer)) {
             throw new UnAuthorizedException();
@@ -54,35 +54,19 @@ public class Answer extends BaseEntity {
     }
 
     public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
+        return super.getId();
     }
 
     public Long getWriterId() {
         return writerId;
     }
 
-    public void setWriterId(Long writerId) {
-        this.writerId = writerId;
-    }
-
     public Long getQuestionId() {
         return questionId;
     }
 
-    public void setQuestionId(Long questionId) {
-        this.questionId = questionId;
-    }
-
     public String getContents() {
         return contents;
-    }
-
-    public void setContents(String contents) {
-        this.contents = contents;
     }
 
     public boolean isDeleted() {
@@ -96,7 +80,7 @@ public class Answer extends BaseEntity {
     @Override
     public String toString() {
         return "Answer{" +
-                "id=" + id +
+                "id=" + super.getId() +
                 ", writerId=" + writerId +
                 ", questionId=" + questionId +
                 ", contents='" + contents + '\'' +
