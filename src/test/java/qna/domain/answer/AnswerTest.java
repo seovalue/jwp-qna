@@ -3,7 +3,7 @@ package qna.domain.answer;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import qna.CannotDeleteException;
+import qna.exception.CannotDeleteException;
 import qna.domain.question.Question;
 import qna.domain.question.QuestionTest;
 
