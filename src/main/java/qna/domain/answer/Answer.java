@@ -1,8 +1,8 @@
 package qna.domain.answer;
 
-import qna.CannotDeleteException;
-import qna.NotFoundException;
-import qna.UnAuthorizedException;
+import qna.exception.CannotDeleteException;
+import qna.exception.NotFoundException;
+import qna.exception.UnAuthorizedException;
 import qna.domain.BaseEntity;
 import qna.domain.question.Question;
 import qna.domain.user.User;

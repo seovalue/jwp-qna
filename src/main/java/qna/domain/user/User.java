@@ -1,7 +1,7 @@
 package qna.domain.user;
 
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-import qna.UnAuthorizedException;
+import qna.exception.UnAuthorizedException;
 import qna.domain.BaseEntity;
 
 import javax.persistence.*;
